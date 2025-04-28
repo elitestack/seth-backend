@@ -1311,27 +1311,31 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
 });
 
 
-// app.get('*', (req, res) => {
+// // app.get('*', (req, res) => {
+// //   res.sendFile(path.join(__dirname, '../build', 'index.html'));
+// // });
+
+// // Add this before your catch-all route
+// app.use(express.static(path.join(__dirname, '../build')));
+
+// // Then your catch-all route
+// app.get((req, res) => {
 //   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 // });
 
-// Add this before your catch-all route
-app.use(express.static(path.join(__dirname, '../build')));
 
-// Then your catch-all route
-app.get((req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
-
-
-// Error Handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Internal server error' });
-});
+// // Error Handling
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).json({ message: 'Internal server error' });
+// });
 
 
 
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
+
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
