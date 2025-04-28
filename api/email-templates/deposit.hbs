@@ -1,0 +1,24 @@
+<!-- email-templates/deposit.hbs -->
+<!DOCTYPE html>
+<html>
+<!-- similar structure as welcome.hbs -->
+<div class="container">
+    <div class="header">
+        <h1>Deposit Confirmation</h1>
+    </div>
+    <div class="content">
+        <p>Hello {{name}},</p>
+        <p>We've received your deposit of {{amount}} {{currency}}.</p>
+        <p>Details:</p>
+        <ul>
+            <li>Crypto Amount: {{cryptoAmount}} {{cryptoCurrency}}</li>
+            <li>Wallet Address: {{walletAddress}}</li>
+            <li>Date: {{date}}</li>
+        </ul>
+        <p>The funds will be available in your account once the transaction is confirmed on the blockchain.</p>
+    </div>
+    <div class="footer">
+        <p>© 2023 InvestBit. All rights reserved.</p>
+    </div>
+</div>
+</html>
