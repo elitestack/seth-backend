@@ -189,6 +189,36 @@ const WithdrawalSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
+
+// Add this with your other schemas
+const TransactionSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  adminId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin'
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['deposit', 'withdrawal', 'transfer', 'admin_adjustment', 'bonus']
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  balanceAfter: {
+    type: Number,
+    required: true
+  },
+  note: String,
+  metadata: mongoose.Schema.Types.Mixed
+}, { timestamps: true });
+
+const Transaction = mongoose.model('Transaction', TransactionSchema);
 // Add this with your other models
 const Withdrawal = mongoose.model('Withdrawal', WithdrawalSchema);
 
@@ -576,10 +606,10 @@ app.get('/api/wallet', authenticateToken, async (req, res) => {
     if (!wallet) {
       wallet = new UserWallet({
         userId: req.user._id,
-        availableBalance: 1850,
+        availableBalance: 0,
         bonuses: {
           welcomeBonus: {
-            amount: 1850,
+            amount: 0,
             claimed: false,
             claimDate: new Date()
           }
@@ -907,7 +937,8 @@ app.get('/api/admin/dashboard', authenticateAdmin, async (req, res) => {
 });
 
 // User Management
-app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
+// app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
+app.get('/api/admin/users', async (req, res) => {
   try {
     const { page = 1, limit = 20, search = '' } = req.query;
     
@@ -942,7 +973,11 @@ app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.get('/api/admin/users/:id', authenticateAdmin, async (req, res) => {
+// app.get('/api/admin/users/:id', authenticateAdmin, async (req, res) => {
+
+app.get('/api/admin/users/:id', async (req, res) => {
+
+  // return res.status(200).json({message: 'hello world'});
   try {
     const user = await User.findById(req.params.id)
       .select('-password -refreshTokens');
@@ -953,6 +988,7 @@ app.get('/api/admin/users/:id', authenticateAdmin, async (req, res) => {
         code: 'USER_NOT_FOUND'
       });
     }
+
 
     const wallet = await UserWallet.findOne({ userId: user._id });
     const deposits = await Deposit.find({ userId: user._id })
@@ -977,7 +1013,8 @@ app.get('/api/admin/users/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.put('/api/admin/users/:id/wallet', authenticateAdmin, async (req, res) => {
+// app.put('/api/admin/users/:id/wallet', authenticateAdmin, async (req, res) => {
+app.put('/api/admin/users/:id/wallet',  async (req, res) => {
   try {
     const { action, amount, note } = req.body;
     
@@ -1045,7 +1082,8 @@ app.put('/api/admin/users/:id/wallet', authenticateAdmin, async (req, res) => {
       amount: action === 'add' ? amount : -amount,
       balanceAfter: updatedWallet.availableBalance,
       note: note || `Admin ${action}ed balance`,
-      adminId: req.admin._id
+      adminId: user._id
+      // adminId: req.admin._id
     });
     await transaction.save();
 
@@ -1162,6 +1200,104 @@ app.put('/api/admin/deposits/:id', authenticateAdmin, async (req, res) => {
     });
   }
 });
+
+
+
+
+
+
+
+
+
+// app.put('/api/admin/transactions/:id/status', authenticateAdmin, async (req, res) => {
+app.put('/api/admin/transactions/:id/status',  async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, note } = req.body;
+
+    // 1. Find the transaction in either collection
+    const deposit = await Deposit.findById(id).populate('userId');
+    const withdrawal = await Withdrawal.findById(id).populate('userId');
+    
+    const transaction = deposit || withdrawal;
+    const transactionType = deposit ? 'deposit' : 'withdrawal';
+
+    if (!transaction) {
+      return res.status(404).json({
+        message: 'Transaction not found',
+        code: 'TRANSACTION_NOT_FOUND'
+      });
+    }
+
+
+
+    const validStatuses = {
+  deposit: ['pending', 'completed', 'failed', 'cancelled'],
+  withdrawal: ['pending', 'processed', 'failed', 'cancelled']
+};
+
+
+    if (!validStatuses[transactionType].includes(status)) {
+      return res.status(400).json({
+        message: `Invalid status for ${transactionType}`,
+        code: 'INVALID_STATUS',
+        validStatuses: validStatuses[transactionType]
+      });
+    }
+
+    // 3. Handle wallet balance changes
+    if (status === 'completed' && transactionType === 'deposit') {
+      await UserWallet.findOneAndUpdate(
+        { userId: transaction.userId._id },
+        { 
+          $inc: { 
+            totalBalance: transaction.amount,
+            totalDeposits: transaction.amount,
+            availableBalance: transaction.amount 
+          } 
+        },
+        { new: true, upsert: true }
+      );
+    } 
+    else if (status === 'processed' && transactionType === 'withdrawal') {
+      await UserWallet.findOneAndUpdate(
+        { userId: transaction.userId._id },
+        { 
+          $inc: { 
+            totalBalance: -transaction.amount,
+            totalWithdrawals: transaction.amount,
+            availableBalance: -transaction.amount 
+          } 
+        },
+        { new: true, upsert: true }
+      );
+    }
+
+    // 4. Update transaction status and audit info
+    transaction.status = status;
+    transaction.adminNote = note;
+    // transaction.processedBy = req.admin._id;
+    transaction.processedBy = '000000000000000000000000'; // dummy admin ID
+    transaction.processedAt = new Date();
+    await transaction.save();
+
+    // 5. Send appropriate response
+    res.json({
+      message: `${transactionType} status updated successfully`,
+      [transactionType]: transaction,
+      newStatus: status
+    });
+
+  } catch (error) {
+    console.error(`Admin transaction status update error: ${error.message}`);
+    res.status(500).json({
+      message: 'Error updating transaction status',
+      error: error.message,
+      code: 'SERVER_ERROR'
+    });
+  }
+});
+
 
 // Withdrawal Management
 app.get('/api/admin/withdrawals', authenticateAdmin, async (req, res) => {
@@ -1311,31 +1447,17 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
 });
 
 
-// // app.get('*', (req, res) => {
-// //   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// // });
-
-// // Add this before your catch-all route
-// app.use(express.static(path.join(__dirname, '../build')));
-
-// // Then your catch-all route
-// app.get((req, res) => {
-//   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// });
 
 
-// // Error Handling
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({ message: 'Internal server error' });
-// });
+// Error Handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal server error' });
+});
 
 
 
 
 
-module.exports = app;
-
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
