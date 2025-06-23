@@ -1,8 +1,7 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
-// Load environment variables FIRST
+// api/index.js
 import dotenv from 'dotenv';
-dotenv.config({ path: './.env' }); // Explicitly specify the path
+dotenv.config(); // Remove explicit path for Vercel compatibility
+
 import express from 'express';
 import { google } from 'googleapis';
 import mongoose from 'mongoose';
@@ -13,8 +12,6 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import emailService from './emailService.js';
-import { createRequire } from 'module'; // For emailService.js which still uses require
-// Add at the top with other imports
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -22,25 +19,30 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-const require = createRequire(import.meta.url);
-
 const app = express();
-
-
 
 // Security Middleware
 app.use(helmet());
 app.use(cookieParser());
 
-// CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://octa-xtb.vercel.app'
+];
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   exposedHeaders: ['X-User-Email']
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rate Limiting
@@ -50,8 +52,11 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// MongoDB Connection
-const uri = process.env.MONGODB_URI || 'mongodb+srv://brokertest:WuseNGm9pxOqcCL8@cluster0.zpeipot.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// MongoDB Connection - REMOVE HARD-CODED CREDENTIALS
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  throw new Error('MONGODB_URI environment variable is not defined');
+}
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -59,6 +64,7 @@ mongoose.connect(uri, {
 })
 .then(() => console.log('✅ MongoDB connected successfully 🚀'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
+
 
 // Schemas
 
@@ -1448,16 +1454,16 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
 
 
 
-
-// Error Handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Internal server error' });
-});
-
-
+export default app;
+// // Error Handling
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).json({ message: 'Internal server error' });
+// });
 
 
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
