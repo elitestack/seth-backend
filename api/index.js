@@ -445,7 +445,7 @@ app.post('/api/register', async (req, res) => {
 
     const newUser = new User({ name, email, password, phone, currency, country });
     await newUser.save();
-    await emailService.sendWelcomeEmail(newUser);
+    // await emailService.sendWelcomeEmail(newUser);
 
     const newWallet = new UserWallet({ 
       userId: newUser._id,
