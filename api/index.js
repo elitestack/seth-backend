@@ -1237,9 +1237,15 @@ app.put('/api/admin/transactions/:id/status',  async (req, res) => {
 
 
 
-    const validStatuses = {
+//     const validStatuses = {
+//   deposit: ['pending', 'completed', 'failed', 'cancelled'],
+//   withdrawal: ['pending', 'processed', 'failed', 'cancelled']
+// };
+
+
+const validStatuses = {
   deposit: ['pending', 'completed', 'failed', 'cancelled'],
-  withdrawal: ['pending', 'processed', 'failed', 'cancelled']
+  withdrawal: ['pending', 'processing', 'completed', 'failed', 'cancelled'] // Add 'completed'
 };
 
 
@@ -1249,7 +1255,19 @@ app.put('/api/admin/transactions/:id/status',  async (req, res) => {
         code: 'INVALID_STATUS',
         validStatuses: validStatuses[transactionType]
       });
-    }
+    }else if (status === 'completed' && transactionType === 'withdrawal') {
+  await UserWallet.findOneAndUpdate(
+    { userId: transaction.userId._id },
+    { 
+      $inc: { 
+        totalBalance: -transaction.amount,
+        totalWithdrawals: transaction.amount
+      } 
+    },
+    { new: true, upsert: true }
+  );
+}
+
 
     // 3. Handle wallet balance changes
     if (status === 'completed' && transactionType === 'deposit') {
@@ -1455,15 +1473,13 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
 
 
 export default app;
-// // Error Handling
+
+
+// Error Handling
 // app.use((err, req, res, next) => {
 //   console.error(err.stack);
 //   res.status(500).json({ message: 'Internal server error' });
 // });
-
-
-
-
 
 // const PORT = process.env.PORT || 5000;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
