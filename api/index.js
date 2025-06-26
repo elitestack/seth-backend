@@ -445,7 +445,7 @@ app.post('/api/register', async (req, res) => {
 
     const newUser = new User({ name, email, password, phone, currency, country });
     await newUser.save();
-    // await emailService.sendWelcomeEmail(newUser);
+
 
     const newWallet = new UserWallet({ 
       userId: newUser._id,
@@ -515,7 +515,7 @@ app.post('/api/login', async (req, res) => {
     // Store refresh token
     user.refreshTokens.push(refreshToken);
     await user.save();
-    // await emailService.sendWelcomeEmail(user);
+
     res.status(200).json({ 
       token,
       refreshToken,
@@ -677,7 +677,6 @@ app.post('/api/deposit', authenticateToken, async (req, res) => {
 
     const user = req.headers['email'];
     await newDeposit.save();
-    await emailService.sendDepositConfirmation(user, newDeposit);
 
 
     res.status(201).json({
@@ -797,7 +796,6 @@ app.post('/api/withdraw', authenticateToken, async (req, res) => {
     wallet.availableBalance -= amount;
     await wallet.save();
     const user = await User.findById(req.user._id);
-    await emailService.sendWithdrawalRequest(user, withdrawal);
 
 
     res.status(201).json({
@@ -1093,14 +1091,6 @@ app.put('/api/admin/users/:id/wallet',  async (req, res) => {
     });
     await transaction.save();
 
-    // Send notification to user
-    await emailService.sendBalanceUpdateNotification(
-      user,
-      action,
-      amount,
-      updatedWallet.availableBalance,
-      note
-    );
 
     res.json({
       message: 'Wallet updated successfully',
@@ -1181,11 +1171,11 @@ app.put('/api/admin/deposits/:id', authenticateAdmin, async (req, res) => {
         { new: true, upsert: true }
       );
 
-      await emailService.sendDepositReceipt(
-        deposit.userId,
-        deposit,
-        wallet.availableBalance
-      );
+    //   await emailService.sendDepositReceipt(
+    //     deposit.userId,
+    //     deposit,
+    //     wallet.availableBalance
+    //   );
     }
 
     deposit.status = status;
@@ -1390,11 +1380,11 @@ app.put('/api/admin/withdrawals/:id', authenticateAdmin, async (req, res) => {
         { new: true }
       );
 
-      await emailService.sendWithdrawalCancellation(
-        withdrawal.userId,
-        withdrawal,
-        wallet.availableBalance
-      );
+    //   await emailService.sendWithdrawalCancellation(
+    //     withdrawal.userId,
+    //     withdrawal,
+    //     wallet.availableBalance
+    //   );
     }
 
     // If completing the withdrawal
@@ -1405,11 +1395,11 @@ app.put('/api/admin/withdrawals/:id', authenticateAdmin, async (req, res) => {
         { new: true }
       );
 
-      await emailService.sendWithdrawalReceipt(
-        withdrawal.userId,
-        withdrawal,
-        wallet.availableBalance
-      );
+    //   await emailService.sendWithdrawalReceipt(
+    //     withdrawal.userId,
+    //     withdrawal,
+    //     wallet.availableBalance
+    //   );
     }
 
     await withdrawal.save();
@@ -1446,14 +1436,14 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
       users = await User.find({ _id: { $in: userIds } }).select('email name');
     }
 
-    const sendPromises = users.map(user => 
-      emailService.sendCustomNotification(
-        user,
-        subject,
-        message,
-        htmlContent
-      )
-    );
+    // const sendPromises = users.map(user => 
+    //   emailService.sendCustomNotification(
+    //     user,
+    //     subject,
+    //     message,
+    //     htmlContent
+    //   )
+    // );
 
     await Promise.all(sendPromises);
 
@@ -1475,11 +1465,3 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
 export default app;
 
 
-// Error Handling
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({ message: 'Internal server error' });
-// });
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
