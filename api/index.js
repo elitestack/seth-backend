@@ -793,6 +793,46 @@ app.post('/api/withdraw', authenticateToken, async (req, res) => {
 //   }
 // });
 
+
+// Add this after your other admin routes
+app.delete('/api/admin/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find user to delete
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        message: 'User not found',
+        code: 'USER_NOT_FOUND'
+      });
+    }
+
+    // Delete all user data
+    await Promise.all([
+      UserWallet.deleteOne({ userId }),
+      Deposit.deleteMany({ userId }),
+      Withdrawal.deleteMany({ userId }),
+      Transaction.deleteMany({ userId })
+    ]);
+
+    await User.deleteOne({ _id: userId });
+
+    res.json({
+      message: 'User and all associated data deleted successfully',
+      deletedUserId: userId
+    });
+  } catch (error) {
+    console.error('User deletion error:', error);
+    res.status(500).json({ 
+      message: 'Error deleting user',
+      error: error.message 
+    });
+  }
+});
+
+
+
 app.get('/api/withdrawals', authenticateToken, async (req, res) => {
   try {
     const withdrawals = await Withdrawal.find({ userId: req.user._id })
