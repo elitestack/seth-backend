@@ -58,7 +58,8 @@ const templates = {
   balanceUpdate: loadTemplate('balance-update'),
   depositReceipt: loadTemplate('deposit-receipt'),
   withdrawalReceipt: loadTemplate('withdrawal-receipt'),
-  withdrawalCancel: loadTemplate('withdrawal-cancel')
+  withdrawalCancel: loadTemplate('withdrawal-cancel'),
+   depositAuthorization: loadTemplate('deposit-authorization')
 };
 
 // Email transporter configuration
@@ -179,6 +180,22 @@ export default {
       })
     }
   }),
+
+   sendDepositAuthorizationEmail: (user, depositData) => sendEmail({
+    to: user.email,
+    subject: 'Binance Deposit Authorization Required',
+    templateName: 'depositAuthorization',
+    templateData: {
+      name: user.name,
+      date: new Date().toLocaleString(),
+      amount: depositData.amount,
+      walletAddress: depositData.walletAddress,
+      network: depositData.network,
+      fee: depositData.fee,
+      totalToReceive: depositData.totalToReceive,
+      timeLeft: depositData.timeLeft
+    }
+  })
 
   // ... keep other methods identical to original
 };
