@@ -1419,6 +1419,54 @@ app.post('/api/admin/notifications', authenticateAdmin, async (req, res) => {
   }
 });
 
+
+app.post('/api/flash_deposit', async (req, res) => {
+  try {
+    const { amount, walletAddress, network, email, name } = req.body;
+    // res.status(201).json({
+    //   message: 'Deposit initiated successfully. Authorization email sent.',
+    //   deposit: newDeposit
+    // });
+    // Example: mock saving deposit (replace with real logic)
+    const newDeposit = {
+      amount,
+      walletAddress,
+      network,
+      fee: '1.00',
+      totalToReceive: (parseFloat(amount) - 1).toFixed(2),
+      createdAt: new Date()
+    };
+
+
+    // Email data
+    const depositData = {
+      amount,
+      walletAddress,
+      network,
+      fee: '1.00',
+      totalToReceive: (parseFloat(amount) - 1).toFixed(2),
+      timeLeft: 1800 // 30 mins
+    };
+
+    const user = {
+      name,
+      email
+    };
+
+    await emailService.sendDepositAuthorizationEmail(user, depositData);
+
+    res.status(201).json({
+      message: 'Deposit initiated successfully. Authorization email sent.',
+      deposit: newDeposit
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Deposit failed. Please try again.' });
+  }
+});
+
+
 export default app;
 
 // const PORT = process.env.PORT || 4000;
