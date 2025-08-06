@@ -710,16 +710,16 @@ app.post('/api/withdraw', authenticateToken, async (req, res) => {
       });
     }
 
-      const userEmail = req.user.email;
+//       const userEmail = req.user.email;
 
-    // Special rule for test@test.test1
-  if (userEmail.toLowerCase() === 'mariusvinkelis@gmail.com') {
-  if (String(amount) !== '$10') {
-    return res.status(403).json({
-      message: 'You have passed your withdrawal limit'
-    });
-  }
-}
+//     // Special rule for test@test.test1
+//   if (userEmail.toLowerCase() === 'mariusvinkelis@gmail.com') {
+//   if (String(amount) !== '$10') {
+//     return res.status(403).json({
+//       message: 'You have passed your withdrawal limit'
+//     });
+//   }
+// }
 
     
     // No numeric validation or balance check — we accept it as-is
