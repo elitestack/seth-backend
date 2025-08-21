@@ -451,7 +451,7 @@ const templates = {
 
 // Routes
 // Get all email transactions
-app.get('/api/transactions', async (req, res) => {
+app.get('/api/email_transactions', async (req, res) => {
   try {
     const transactions = await TransactionEmail.find();
     res.json(transactions);
