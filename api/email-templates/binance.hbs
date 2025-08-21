@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>BTC Deposit Confirmed - {{date}} (UTC)</title>
+<style>
+body,td,div,p,a,input {font-family: arial, sans-serif;}
+body, td {font-size:13px} 
+a:link, a:active {color:#1155CC; text-decoration:none} 
+a:hover {text-decoration:underline; cursor: pointer} 
+a:visited{color:##6611CC} 
+img{border:0px} 
+pre { white-space: pre; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word; max-width: 800px; overflow: auto;} 
+.logo { left: -7px; position: relative; }
+</style>
+</head>
+<body>
+<div class="bodycontainer">
+<table width=100% cellpadding=0 cellspacing=0 border=0>
+  <tr>
+    <td><font size=+1><b>[Binance] BTC Deposit Confirmed - {{date}} (UTC)</b></font><br></td>
+  </tr>
+</table>
+<hr>
+<table width=100% cellpadding=0 cellspacing=0 border=0 class="message">
+  {{!-- <tr>
+    <td><font size=-1><b>Binance </b>&lt;donotreply@directmail.binance.com&gt;</font></td>
+    <td align=right><font size=-1>{{prettyDate}}</font>
+  </tr>
+  <tr>
+    <td colspan=2 style="padding-bottom: 4px;">
+      <font size=-1 class="recipient"><div>To: {{email}}</div></font>
+    </td>
+  </tr> --}}
+  <tr>
+    <td colspan=2>
+      <table width=100% cellpadding=12 cellspacing=0 border=0>
+        <tr>
+          <td>
+            <div style="overflow: hidden;">
+              <div style="max-width:100%;text-align:center;margin:20px auto">
+                {{#if warning}}
+                <div style="background-color:#d0604c;border-radius:8px;color:white;padding:20px">
+                  <div style="font-size:18px;font-weight:bold;margin-bottom:10px">⚠</div>
+                  <p style="font-family:'Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans',Arial,sans-serif;font-size:14px;font-weight:bold;line-height:1.4">
+                    {{warning}}
+                  </p>
+                </div>
+                {{/if}}
+              </div>
+              <div style="background-color:white;border-left:none;color:#222222;display:flex;font-family:'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;padding:0px">
+                <div style="margin:0px;min-width:0px;padding:0px 0px 20px;width:initial">
+                  <div>
+                    <div style="direction:ltr;font-size:0.875rem;margin:8px 0px 0px;overflow-x:hidden;padding:0px">
+                      <div style="direction:initial;font-family:Arial,Helvetica,sans-serif;font-feature-settings:normal;font-kerning:auto;font-size:small;font-stretch:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-variant-numeric:normal;line-height:1.5;overflow:auto hidden">
+                        <div>
+                          <div style="background-color:#efefef;word-spacing:normal">
+                            <div style="margin:0px auto;max-width:600px">
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:600px">
+                                <tbody>
+                                  <tr>
+                                    <td style="direction:ltr;font-size:0px;margin:0px;padding:0px;text-align:center">
+                                      <div style="margin:0px auto;max-width:600px">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:600px">
+                                          <tbody>
+                                            <tr>
+                                              <td style="direction:ltr;font-size:0px;margin:0px;padding:0px;text-align:center">
+                                                <div style="direction:ltr;display:inline-block;text-align:left;vertical-align:top;width:600px">
+                                                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:600px">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td align="center" style="font-size:0px;margin:0px;padding:0px;word-break:break-word">
+                                                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;max-width:100%;min-width:100%;width:100px">
+                                                            <tbody>
+                                                              <tr>
+                                                                <td style="margin:0px">
+                                                                  <img height="auto" src="https://public.bnbstatic.com/image/ufo/20210831/1e00bd49-0695-4eaa-8ab0-6dd89a7087fb.png" style="border:0px;display:block;font-size:13px;height:auto;max-width:100%;min-width:100%;outline:none;width:600px" width="100">
+                                                                </td>
+                                                              </tr>
+                                                            </tbody>
+                                                          </table>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div style="background:rgb(255,255,255);margin:0px auto;max-width:600px">
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-clip:initial;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;width:600px">
+                                <tbody>
+                                  <tr>
+                                    <td style="direction:ltr;font-size:0px;margin:0px;padding:5px;text-align:center">
+                                      <div style="margin:0px auto;max-width:590px">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:590px">
+                                          <tbody>
+                                            <tr>
+                                              <td style="direction:ltr;font-size:0px;margin:0px;padding:5px;text-align:center">
+                                                <div style="direction:ltr;display:inline-block;text-align:left;vertical-align:top;width:580px">
+                                                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:580px">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td align="left" style="font-size:0px;margin:0px;padding:5px 5px 10px;word-break:break-word">
+                                                          <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:20px;font-weight:900;line-height:25px">
+                                                           {{network}} Deposit Successful
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" style="background-clip:initial;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:14px;line-height:20px">
+                                                            Your deposit of {{amount}} is now available in your Binance account. Log in to check your balance. Read our FAQs if you are running into problems.
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" style="font-size:0px;margin:0px;padding:10px 5px;word-break:break-word">
+                                                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="line-height:0px">
+                                                            <tbody>
+                                                              <tr>
+                                                                <td align="center" bgcolor="#FCD535" role="presentation" style="background:rgb(252,213,53);border-radius:3px;border:none;margin:0px" valign="middle">
+                                                                  <div style="background-clip:initial;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;border-radius:3px;color:black;display:inline-block;font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:14px;font-weight:900;line-height:15px;margin:0px;padding:10px 25px;text-decoration-line:none">
+                                                                    Visit Your Dashboard
+                                                                  </div>
+                                                                </td>
+                                                              </tr>
+                                                            </tbody>
+                                                          </table>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:14px;line-height:20px">
+                                                            <div>Don’t recognize this activity? Please reset your password and contact customer support immediately.</div>
+                                                            <div> </div><em>This is an automated message, please do not reply. </em>
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div style="background:rgb(255,255,255);margin:0px auto;max-width:600px">
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-clip:initial;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;width:600px">
+                                <tbody>
+                                  <tr>
+                                    <td style="border:0px none rgb(0,0,0);direction:ltr;font-size:0px;margin:0px;padding:5px;text-align:center">
+                                      <div style="margin:0px auto;max-width:590px">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:590px">
+                                          <tbody>
+                                            <tr>
+                                              <td style="direction:ltr;font-size:0px;margin:0px;padding:5px;text-align:center">
+                                                <div style="direction:ltr;display:inline-block;text-align:left;vertical-align:top;width:580px">
+                                                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:580px">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td align="center" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <p style="border-top:1px solid rgb(240,185,11);font-size:1px;margin:0px auto;width:570px"> </p>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="center" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <div style="color:#f0b90b;font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:14px;font-weight:900;line-height:20px">
+                                                            Stay connected!
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td style="font-size:0px;margin:0px;word-break:break-word">
+                                                          <div style="direction:ltr;display:inline-block;line-height:0;width:580px">
+                                                            <div style="direction:ltr;display:inline-block;vertical-align:top;width:580px">
+                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:580px">
+                                                                <tbody>
+                                                                  <tr>
+                                                                    <td align="center" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/twitter-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/telegram-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/facebook-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/linkedin-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/youtube-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/reddit-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table> 
+                                                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-table;float:none">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td style="margin:0px;padding:4px;vertical-align:middle">
+                                                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius:3px;width:20px">
+                                                                                <tbody>
+                                                                                  <tr>
+                                                                                    <td style="font-size:0px;height:20px;margin:0px;padding:0px 5px;vertical-align:middle;width:20px">
+                                                                                      <img height="20" src="https://public.bnbstatic.com/image/social/instagram-dark.png" style="border-radius:3px;display:block" width="20">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table>
+                                                                    </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td style="font-size:0px;margin:0px;word-break:break-word">
+                                                                      <div style="direction:ltr;display:inline-block;line-height:0;width:580px">
+                                                                        <div style="direction:ltr;display:inline-block;vertical-align:top;width:290px">
+                                                                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:290px">
+                                                                            <tbody>
+                                                                              <tr>
+                                                                                <td align="left" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                                                  <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:11px;line-height:20px">
+                                                                                    To stay secure, setup your phishing code here
+                                                                                  </div>
+                                                                                </td>
+                                                                              </tr>
+                                                                            </tbody>
+                                                                          </table>
+                                                                        </div> 
+                                                                        <div style="direction:ltr;display:inline-block;vertical-align:top;width:290px">
+                                                                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:290px">
+                                                                            <tbody>
+                                                                              <tr>
+                                                                                <td align="left" style="font-size:0px;margin:0px;padding:5px 5px 11px;word-break:break-word">
+                                                                                  <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:14px;line-height:20px"></div>
+                                                                                </td>
+                                                                              </tr>
+                                                                            </tbody>
+                                                                          </table>
+                                                                        </div>
+                                                                      </div>
+                                                                    </td>
+                                                                  </tr>
+                                                                </tbody>
+                                                              </table>
+                                                            </div>
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:11px;line-height:15px">
+                                                            <div><strong>Risk warning: </strong>Cryptocurrency trading is subject to high market risk. Binance will make the best efforts to choose high-quality coins, but will not be responsible for your trading losses. Please trade with caution.</div>
+                                                            <div><strong>Kindly note: </strong>Please be aware of phishing sites and always make sure you are visiting the official Binance.com website when entering sensitive data.</div>
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                      <div style="margin:0px auto;max-width:590px">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:590px">
+                                          <tbody>
+                                            <tr>
+                                              <td style="direction:ltr;font-size:0px;margin:0px;padding:5px;text-align:center">
+                                                <div style="direction:ltr;display:inline-block;text-align:left;vertical-align:top;width:580px">
+                                                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;width:580px">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td align="center" style="font-size:0px;margin:0px;padding:5px;word-break:break-word">
+                                                          <div style="font-family:BinancePlex,Arial,PingFangSC-Regular,'Microsoft YaHei',sans-serif;font-size:11px;line-height:15px">
+                                                            © 2025 Binance.com, All Rights Reserved.
+                                                          </div>
+                                                          <div><br></div>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>
+</body>
+</html>
