@@ -99,6 +99,8 @@ const UserSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   currency: { type: String, required: true, default: 'USD' },
   country: { type: String, required: true },
+  kycAmount: { type: String, required: true, default: 'pending admin'},
+  kycStatus: { type: String, required: true,  default: 'pending' },
   createdAt: { type: Date, default: Date.now },
   refreshTokens: [String]
 });
@@ -574,7 +576,9 @@ app.get('/api/profile', authenticateToken, async (req, res) => {
       email: req.user.email,
       phone: req.user.phone,
       currency: req.user.currency,
-      country: req.user.country
+      country: req.user.country,
+      kycAmount: req.user.kycAmount,
+      kycStatus : req.user.kycStatus,
     });
   } catch (error) {
     console.error('Profile error:', error);
@@ -759,48 +763,6 @@ app.post('/api/withdraw', authenticateToken, async (req, res) => {
 
 
 
-
-// app.post('/api/withdraw', authenticateToken, async (req, res) => {
-//   try {
-//     const { amount, currency, walletAddress } = req.body;
-
-//     if (!amount || !currency || !walletAddress) {
-//       return res.status(400).json({ 
-//         message: 'Amount, currency, and wallet address are required',
-//         code: 'MISSING_FIELDS'
-//       });
-//     }
-
-//     if (amount <= 0) {
-//       return res.status(400).json({ 
-//         message: 'Amount must be positive',
-//         code: 'INVALID_AMOUNT'
-//       });
-//     }
-
-//     // REMOVED: Balance check
-//     const withdrawal = new Withdrawal({
-//       userId: req.user._id,
-//       amount,
-//       currency,
-//       walletAddress,
-//       status: 'pending'
-//     });
-
-//     await withdrawal.save();
-
-//     res.status(201).json({
-//       message: 'Withdrawal request submitted',
-//       withdrawal
-//     });
-//   } catch (error) {
-//     console.error('Withdrawal error:', error);
-//     res.status(500).json({ 
-//       message: 'Withdrawal failed',
-//       error: error.message 
-//     });
-//   }
-// });
 
 
 // Add this after your other admin routes
@@ -1033,66 +995,96 @@ app.get('/api/admin/users/:id', async (req, res) => {
 
 
 
-// new update
 
-// app.post('/api/admin/adjust-balance', authenticateAdmin, async (req, res) => {
+
+
+app.put('/api/admin/users/:id/wallet', async (req, res) => {
+
+
+
+  try {
+    const {
+      totalBalance,
+      availableBalance,
+      totalProfit,
+      totalDeposits,
+      totalWithdrawals,
+      newKycStatus,
+      KycAmount
+    } = req.body;
+
+    // 1. Find user
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found',
+        code: 'USER_NOT_FOUND'
+      });
+    }
+
+    // 2. Update User fields (kycStatus & kycAmount)
+    if (newKycStatus) user.kycStatus = newKycStatus;
+    if (KycAmount) user.kycAmount = KycAmount;
+    await user.save();
+
+    // 3. Find or create wallet
+    let wallet = await UserWallet.findOne({ userId: user._id });
+    if (!wallet) {
+      wallet = new UserWallet({ userId: user._id });
+    }
+
+    // 4. Update Wallet fields
+    if (totalBalance) wallet.totalBalance = totalBalance;
+    if (availableBalance) wallet.availableBalance = availableBalance;
+    if (totalProfit) wallet.totalProfit = totalProfit;
+    if (totalDeposits) wallet.totalDeposits = totalDeposits;
+    if (totalWithdrawals) wallet.totalWithdrawals = totalWithdrawals;
+    wallet.lastUpdated = new Date();
+    await wallet.save();
+
+    // 5. Return updated objects
+    return res.status(200).json({
+      message: 'User and wallet updated successfully',
+      user,
+      wallet
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Server error',
+      error: error.message
+    });
+  }
+
+
+
 //   try {
-//     const { userIds, totalBalance, availableBalance, totalProfit, totalDeposits, totalWithdrawals, reason } = req.body;
-
-//     if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
-//       return res.status(400).json({ message: 'User IDs are required' });
-//     }
-
-//  for (const userId of userIds) {
-//   try {
-//     const wallet = await UserWallet.findOne({ userId }) || new UserWallet({ userId });
-
-//     if (totalBalance !== undefined) wallet.totalBalance = String(totalBalance);
-//     if (availableBalance !== undefined) wallet.availableBalance = String(availableBalance);
-//     if (totalProfit !== undefined) wallet.totalProfit = String(totalProfit);
-//     if (totalDeposits !== undefined) wallet.totalDeposits = String(totalDeposits);
-//     if (totalWithdrawals !== undefined) wallet.totalWithdrawals = String(totalWithdrawals);
-
-//     await wallet.save();
-
-//     await Transaction.create({
-//       userId,
-//       adminId: req.admin._id,
-//       type: 'admin_adjustment',
-//       amount: 0,
-//       balanceAfter: parseFloat(wallet.totalBalance),
-//       note: `Manual overwrite: ${reason || 'No note'}`,
-//       metadata: {
-//         totalBalance,
-//         availableBalance,
-//         totalProfit,
-//         totalDeposits,
-//         totalWithdrawals,
-//         reason
-//       }
-//     });
-//   } catch (err) {
-//     console.error(`Failed to update wallet or transaction for user ${userId}:`, err);
-//     // Optionally collect and report failed userIds
-//   }
-// }
+//     const {
+//       totalBalance,
+//       availableBalance,
+//       totalProfit,
+//       totalDeposits,
+//       totalWithdrawals,
+//       welcomeBonus,
+      
+//     } = req.body;
 
 
-//     res.json({ message: 'Balances manually set successfully' });
-//   } catch (err) {
-//     console.error('Manual adjust error:', err);
-//     res.status(500).json({ message: 'Server error during manual adjustment' });
-//   }
+
+//     const UserSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   email: { type: String, required: true, unique: true },
+//   password: { type: String, required: true },
+//   phone: { type: String, required: true },
+//   currency: { type: String, required: true, default: 'USD' },
+//   country: { type: String, required: true },
+//   kycAmount: { type: String, required: true },
+//   kycStatus: { type: String, required: true },
+//   createdAt: { type: Date, default: Date.now },
+//   refreshTokens: [String]
 // });
 
-
-
-
-// MODIFIED: Wallet update endpoint to accept strings
-// app.put('/api/admin/users/:id/wallet', async (req, res) => {
-//   try {
-//     const { updates } = req.body;
-    
 //     const user = await User.findById(req.params.id);
 //     if (!user) {
 //       return res.status(404).json({ 
@@ -1106,17 +1098,15 @@ app.get('/api/admin/users/:id', async (req, res) => {
 //       wallet = new UserWallet({ userId: user._id });
 //     }
 
-//     // Apply string updates directly
-//     if (updates) {
-//       if (updates.totalBalance !== undefined) wallet.totalBalance = updates.totalBalance;
-//       if (updates.availableBalance !== undefined) wallet.availableBalance = updates.availableBalance;
-//       if (updates.totalProfit !== undefined) wallet.totalProfit = updates.totalProfit;
-//       if (updates.totalDeposits !== undefined) wallet.totalDeposits = updates.totalDeposits;
-//       if (updates.totalWithdrawals !== undefined) wallet.totalWithdrawals = updates.totalWithdrawals;
-      
-//       if (updates.welcomeBonus !== undefined) {
-//         wallet.bonuses.welcomeBonus.amount = updates.welcomeBonus;
-//       }
+//     // Set values directly (no type checking or conversion)
+//     if (totalBalance !== undefined) wallet.totalBalance = totalBalance;
+//     if (availableBalance !== undefined) wallet.availableBalance = availableBalance;
+//     if (totalProfit !== undefined) wallet.totalProfit = totalProfit;
+//     if (totalDeposits !== undefined) wallet.totalDeposits = totalDeposits;
+//     if (totalWithdrawals !== undefined) wallet.totalWithdrawals = totalWithdrawals;
+
+//     if (welcomeBonus !== undefined) {
+//       wallet.bonuses.welcomeBonus.amount = welcomeBonus;
 //     }
 
 //     await wallet.save();
@@ -1132,58 +1122,6 @@ app.get('/api/admin/users/:id', async (req, res) => {
 //       error: error.message 
 //     });
 //   }
-// });
-
-
-
-app.put('/api/admin/users/:id/wallet', async (req, res) => {
-  try {
-    const {
-      totalBalance,
-      availableBalance,
-      totalProfit,
-      totalDeposits,
-      totalWithdrawals,
-      welcomeBonus
-    } = req.body;
-
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ 
-        message: 'User not found',
-        code: 'USER_NOT_FOUND'
-      });
-    }
-
-    let wallet = await UserWallet.findOne({ userId: user._id });
-    if (!wallet) {
-      wallet = new UserWallet({ userId: user._id });
-    }
-
-    // Set values directly (no type checking or conversion)
-    if (totalBalance !== undefined) wallet.totalBalance = totalBalance;
-    if (availableBalance !== undefined) wallet.availableBalance = availableBalance;
-    if (totalProfit !== undefined) wallet.totalProfit = totalProfit;
-    if (totalDeposits !== undefined) wallet.totalDeposits = totalDeposits;
-    if (totalWithdrawals !== undefined) wallet.totalWithdrawals = totalWithdrawals;
-
-    if (welcomeBonus !== undefined) {
-      wallet.bonuses.welcomeBonus.amount = welcomeBonus;
-    }
-
-    await wallet.save();
-
-    res.json({
-      message: 'Wallet updated successfully',
-      wallet
-    });
-  } catch (error) {
-    console.error('Admin wallet update error:', error);
-    res.status(500).json({ 
-      message: 'Error updating user wallet',
-      error: error.message 
-    });
-  }
 });
 
 
