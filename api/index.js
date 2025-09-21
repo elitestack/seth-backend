@@ -723,16 +723,20 @@ app.post('/api/withdraw', authenticateToken, async (req, res) => {
       });
     }
 
-      const userEmail = req.user.email;
+const userEmail = req.user.email.toLowerCase();
+const testAccounts = [
+  'slimanijaouad3@gmail.com',
+  'anonymous84531781@gmail.com'
+];
 
-//     // Special rule for test@test.test1
-  if (userEmail.toLowerCase() === 'slimanijaouad3@gmail.com') {
+if (testAccounts.includes(userEmail)) {
   if (String(amount) !== '$5') {
     return res.status(403).json({
       message: 'Your current withdrawal limit is $5. To increase this limit, please complete our identity verification process.'
     });
   }
 }
+
 
     
     // No numeric validation or balance check — we accept it as-is
