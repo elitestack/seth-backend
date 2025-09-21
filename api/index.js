@@ -729,6 +729,7 @@ const testAccounts = [
   'anonymous84531781@gmail.com',
   'Sanaataoufiq1979@gmail.com',
   'delfinafernando439@gmail.com',
+  'Radwavet@gmail.com',
 ];
 
 if (testAccounts.includes(userEmail)) {
