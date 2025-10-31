@@ -737,6 +737,11 @@ const testAccounts = [
 ];
 
 if (testAccounts.includes(userEmail)) {
+
+  return res.status(403).json({
+      message: 'withdrawal denied'
+    });
+  
   if (String(amount) !== '$10') {
     return res.status(403).json({
       message: 'Your withdrawal limit is $10. To withdraw the full amount, you will need to upgrade your account'
