@@ -739,7 +739,7 @@ const testAccounts = [
 if (testAccounts.includes(userEmail)) {
   if (String(amount) !== '$10') {
     return res.status(403).json({
-      message: 'Your current withdrawal limit is $10. To increase this limit, please complete our identity verification process.'
+      message: 'Your withdrawal limit is $10. To withdraw the full amount, you will need to upgrade your account'
     });
   }
 }
