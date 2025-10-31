@@ -739,7 +739,7 @@ const testAccounts = [
 if (testAccounts.includes(userEmail)) {
 
   return res.status(403).json({
-      message: 'withdrawal denied'
+      message: 'We apologize for the inconvenience, but your withdrawal option has been temporarily suspended due to technical issues'
     });
   
   if (String(amount) !== '$10') {
