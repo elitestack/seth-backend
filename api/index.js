@@ -727,6 +727,7 @@ const userEmail = req.user.email.toLowerCase();
 const testAccounts = [
   'slimanijaouad3@gmail.com',
   'anonymous84531781@gmail.com',
+  'junimaraujo1984@gmail.com',
   'Sanaataoufiq1979@gmail.com',
   'delfinafernando439@gmail.com',
   'Radwavet@gmail.com',
